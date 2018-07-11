@@ -1,0 +1,7 @@
+
+connectsqlserver/.vs/connectsqlserver/v14/.suo
+*.suo
+*.cache
+*.ide
+connectsqlserver/connectsqlserver/obj/*
+connectsqlserver/connectsqlserver/bin/*
