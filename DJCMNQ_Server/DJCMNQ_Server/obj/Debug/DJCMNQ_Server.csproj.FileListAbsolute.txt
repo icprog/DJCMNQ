@@ -1,0 +1,13 @@
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\bin\Debug\DJCMNQ_Server.exe
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\bin\Debug\DJCMNQ_Server.pdb
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\obj\Debug\DJCMNQ_Server.csprojAssemblyReference.cache
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\obj\Debug\DJCMNQ_Server.MainForm.resources
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\obj\Debug\DJCMNQ_Server.Properties.Resources.resources
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\obj\Debug\DJCMNQ_Server.TestDB.resources
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\obj\Debug\DJCMNQ_Server.csproj.GenerateResource.cache
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\obj\Debug\DJCMNQ_Server.csproj.CoreCompileInputs.cache
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\obj\Debug\DJCMNQ_Server.exe
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\obj\Debug\DJCMNQ_Server.pdb
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\bin\Debug\DJCMNQ_Server.exe.config
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\bin\Debug\System.Configuration.dll
+D:\CSharpProjects\DJCMNQ\DJCMNQ_Server\DJCMNQ_Server\obj\Debug\DJCMNQ_Server.csproj.CopyComplete
