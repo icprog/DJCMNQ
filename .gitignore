@@ -5,3 +5,6 @@ connectsqlserver/.vs/connectsqlserver/v14/.suo
 *.ide
 connectsqlserver/connectsqlserver/obj/*
 connectsqlserver/connectsqlserver/bin/*
+DJCMNQ_Server/.vs/DJCMNQ_Server/v15/Server/sqlite3/storage.ide-shm
+DJCMNQ_Server/DJCMNQ_Server/bin/*
+DJCMNQ_Server/DJCMNQ_Server/obj/*
