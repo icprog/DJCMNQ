@@ -1,9 +1,12 @@
-﻿using System;
+﻿using log4net;
+using log4net.Config;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
@@ -36,9 +39,22 @@ namespace DJCMNQ_Server
             myTestDb.ShowDialog();
         }
 
+        private static ILog m_log = LogManager.GetLogger("ProgramLog");
+        private static ILog m_log222 = LogManager.GetLogger("ProgramLog222");
+
         private void MainForm_Load(object sender, EventArgs e)
         {
+            m_log.Debug("这是一个Debug日志");
+            m_log.Info("这是一个Info日志");
+            m_log.Warn("这是一个Warn日志");
+            m_log.Error("这是一个Error日志");
+            m_log.Fatal("这是一个Fatal日志");
 
+            m_log222.Debug("这是一个Debug日志");
+            m_log222.Info("这是一个Info日志");
+            m_log222.Warn("这是一个Warn日志");
+            m_log222.Error("这是一个Error日志");
+            m_log222.Fatal("这是一个Fatal日志");
         }
 
         /// <summary>

@@ -52,7 +52,7 @@ namespace DJCMNQ_Server
         {
             ServerOn_GT = false;
             TcpClient.ClientGT.IsConnected = false;
-            Data.ServerConnectEvent2.Set();
+            //Data.ServerConnectEvent2.Set();
             try
             {
                 ServerSocket2.Close();
@@ -99,7 +99,7 @@ namespace DJCMNQ_Server
             ServerOn = false;
             TcpClient.ClientZK1.IsConnected = false;
             TcpClient.ClientZK2.IsConnected = false;
-            Data.ServerConnectEvent.Set();
+           // Data.ServerConnectEvent.Set();
             try
             {
                 ServerSocket.Close();
@@ -193,42 +193,41 @@ namespace DJCMNQ_Server
         {
             Trace.WriteLine("启动遥测前段设备给高通转发线程");
             Socket myClientSocket = (Socket)ClientSocket;
-            while (ServerOn_GT && myClientSocket.Connected)
-            {
-                if (Data.DataQueue_GT.Count > 0)
-                {
-                    byte[] temp = Data.DataQueue_GT.Dequeue();
-                    myClientSocket.Send(temp);
-
+            //while (ServerOn_GT && myClientSocket.Connected)
+            //{
+            //    if (Data.DataQueue_GT.Count > 0)
+            //    {
+            //        byte[] temp = Data.DataQueue_GT.Dequeue();
+            //        myClientSocket.Send(temp);
                     
-                }
-            }
+            //    }
+            //}
         }
 
         private void SendToClientZK1(object ClientSocket)
         {
             Trace.WriteLine("启动遥测前段设备--》总控1发送线程");
             Socket myClientSocket = (Socket)ClientSocket;
-            while (ServerOn && myClientSocket.Connected && Data.MS1orMS2 == 1)
-            {
-                if (Data.DataQueue_ZK_ACK.Count > 0)
-                {
-                    myClientSocket.Send(Data.DataQueue_ZK_ACK.Dequeue());
-                }
-            }
+            //while (ServerOn && myClientSocket.Connected && Data.MS1orMS2 == 1)
+            //{
+            //    if (Data.DataQueue_ZK_ACK.Count > 0)
+            //    {
+            //        myClientSocket.Send(Data.DataQueue_ZK_ACK.Dequeue());
+            //    }
+            //}
         }
 
         private void SendToClientZK2(object ClientSocket)
         {
             Trace.WriteLine("启动遥测前段设备--》总控1发送线程");
             Socket myClientSocket = (Socket)ClientSocket;
-            while (ServerOn && myClientSocket.Connected && Data.MS1orMS2 == 2)
-            {
-                if (Data.DataQueue_ZK_ACK.Count > 0)
-                {
-                    myClientSocket.Send(Data.DataQueue_ZK_ACK.Dequeue());
-                }
-            }
+            //while (ServerOn && myClientSocket.Connected && Data.MS1orMS2 == 2)
+            //{
+            //    if (Data.DataQueue_ZK_ACK.Count > 0)
+            //    {
+            //        myClientSocket.Send(Data.DataQueue_ZK_ACK.Dequeue());
+            //    }
+            //}
         }
 
 

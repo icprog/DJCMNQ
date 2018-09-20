@@ -9,5 +9,8 @@ namespace DJCMNQ_Server
 {
     class Data
     {
+
+
+
     }
 }
