@@ -39,22 +39,17 @@ namespace DJCMNQ_Server
             myTestDb.ShowDialog();
         }
 
-        private static ILog m_log = LogManager.GetLogger("ProgramLog");
-        private static ILog m_log222 = LogManager.GetLogger("ProgramLog222");
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            m_log.Debug("这是一个Debug日志");
-            m_log.Info("这是一个Info日志");
-            m_log.Warn("这是一个Warn日志");
-            m_log.Error("这是一个Error日志");
-            m_log.Fatal("这是一个Fatal日志");
 
-            m_log222.Debug("这是一个Debug日志");
-            m_log222.Info("这是一个Info日志");
-            m_log222.Warn("这是一个Warn日志");
-            m_log222.Error("这是一个Error日志");
-            m_log222.Fatal("这是一个Fatal日志");
+            MajorLog.Debug("这是一个Debug日志");
+            MajorLog.Info("这是一个Info日志");
+            MajorLog.Error("这是一个Warn日志");
+
+
+          //GetSysInfo.GetNetInfo();
+            TestUnit.TestDemo1();
         }
 
         /// <summary>

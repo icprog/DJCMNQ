@@ -24,6 +24,32 @@ namespace DJCMNQ_Server
         private static int ServerPort2 = 7777;
         static Socket ServerSocket2;
 
+
+        //改成统一的模板，目标实现Server监听这块可以直接拷贝使用
+        //
+        //
+        public bool ServerOn_Target1 = false;//监听Target1的服务器标志
+        public static int ServerPort_Target1 = 8888;//与Target1通信的服务器Socket的端口号
+        public static Socket ServerSockcet_Target1;
+
+        public void ServerStart_Target1(string TargetIp, string LocalServerPort, string LocalServerIP)
+        {
+            ServerSockcet_Target1 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            IPAddress ServerIP = IPAddress.Parse(LocalServerIP);
+            int ServerPort = int.Parse(LocalServerPort);
+            try
+            {
+                ServerSockcet_Target1.Bind(new IPEndPoint(ServerIP, ServerPort));
+                ServerSockcet_Target1.Listen(10);
+                ServerSockcet_Target1.BeginAccept(new AsyncCallback(onCall), ServerSockcet_Target1);
+            }
+            catch (Exception ex)
+            {
+                MajorLog.Error(ex.ToString());
+            }
+        }
+
+
         public void ServerStart2()
         {
             TcpClient.ClientGT.ClientIP = ConfigurationManager.AppSettings["GTIP"];
@@ -47,6 +73,9 @@ namespace DJCMNQ_Server
                 ServerOn_GT = false;
             }
         }
+
+
+
 
         public void ServerStop2()
         {
@@ -99,7 +128,7 @@ namespace DJCMNQ_Server
             ServerOn = false;
             TcpClient.ClientZK1.IsConnected = false;
             TcpClient.ClientZK2.IsConnected = false;
-           // Data.ServerConnectEvent.Set();
+            // Data.ServerConnectEvent.Set();
             try
             {
                 ServerSocket.Close();
@@ -129,14 +158,14 @@ namespace DJCMNQ_Server
                         Console.WriteLine(RemoteIpStr);
                         if (RemoteIpStr == TcpClient.ClientZK1.ClientIP)
                         {
-                            TcpClient.ClientZK1.IsConnected = true;  
+                            TcpClient.ClientZK1.IsConnected = true;
                             new Thread(() => { RecvFromClientZK1(ClientSocket); }).Start();
                             new Thread(() => { SendToClientZK1(ClientSocket); }).Start();
-   
+
                         }
                         if (RemoteIpStr == TcpClient.ClientZK2.ClientIP)
                         {
-                            TcpClient.ClientZK2.IsConnected = true;    
+                            TcpClient.ClientZK2.IsConnected = true;
                             new Thread(() => { RecvFromClientZK2(ClientSocket); }).Start();
                             new Thread(() => { SendToClientZK2(ClientSocket); }).Start();
                         }
@@ -169,7 +198,7 @@ namespace DJCMNQ_Server
                         String RemoteIpStr = tmppoint.Address.ToString();
                         Console.WriteLine(RemoteIpStr);
                         if (RemoteIpStr == TcpClient.ClientGT.ClientIP)
-                        {                       
+                        {
                             TcpClient.ClientGT.IsConnected = true;
 
                             new Thread(() => { RecvFromClientGT(ClientSocket); }).Start();
@@ -199,7 +228,7 @@ namespace DJCMNQ_Server
             //    {
             //        byte[] temp = Data.DataQueue_GT.Dequeue();
             //        myClientSocket.Send(temp);
-                    
+
             //    }
             //}
         }

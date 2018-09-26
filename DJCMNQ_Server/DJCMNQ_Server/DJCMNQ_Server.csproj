@@ -54,9 +54,12 @@
   <ItemGroup>
     <Compile Include="Data.cs" />
     <Compile Include="Function.cs" />
+    <Compile Include="GetSysInfo.cs" />
+    <Compile Include="MajorLog.cs" />
     <Compile Include="MyLog.cs" />
     <Compile Include="TcpClient.cs" />
     <Compile Include="TcpServer.cs" />
+    <Compile Include="TestUnit.cs" />
     <Compile Include="UI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
