@@ -42,12 +42,9 @@ namespace DJCMNQ_Server
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
             MajorLog.Debug("这是一个Debug日志");
             MajorLog.Info("这是一个Info日志");
             MajorLog.Error("这是一个Warn日志");
-
-
           //GetSysInfo.GetNetInfo();
             TestUnit.TestDemo1();
         }

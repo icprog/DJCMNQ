@@ -1,6 +1,7 @@
 ﻿using log4net;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace DJCMNQ_Server
         public static void Error(string info)
         {
             m_log.Error(info);
+            Trace.WriteLine(info);
         }
 
     }

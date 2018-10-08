@@ -23,45 +23,26 @@ namespace DJCMNQ_Server
             public Socket sck;
             public string ServerIP;
             public string ServerPORT;
+            public Queue<byte[]> DataQueue_Recv;
+            public Queue<byte[]> DataQueue_Send;
+
+            public void Init()
+            {
+                this.DataQueue_Recv = new Queue<byte[]>();
+                this.DataQueue_Send = new Queue<byte[]>();
+            }
         }
 
         //测控网
-        public static TCP_STRUCT ClientZK1 = new TCP_STRUCT();   //总控设备（主）
+        public static TCP_STRUCT ClientZK1 = new TCP_STRUCT();   //总控设备（主）        
         public static TCP_STRUCT ClientZK2 = new TCP_STRUCT();   //总控设备（备）
 
+        public static void Init()
+        {
+            ClientZK1.Init();
+            ClientZK2.Init();
+        }
 
-        //组合体网络
-        public static TCP_STRUCT Client4 = new TCP_STRUCT();    //对外交换机
-
-        //测控网
-        public static TCP_STRUCT Server_CRTa = new TCP_STRUCT();    //USB应答机a
-        public static TCP_STRUCT Server_CRTa_Return = new TCP_STRUCT();    //小回路比对
-
-        public static TCP_STRUCT Server_CRTb = new TCP_STRUCT();    //USB应答机b
-        public static TCP_STRUCT Server_CRTb_Return = new TCP_STRUCT();    //小回路比对
-
-        public static TCP_STRUCT Server_ZSSA = new TCP_STRUCT();    //窄带SSA
-        public static TCP_STRUCT Server_ZSSA_Return = new TCP_STRUCT();    //小回路比对
-
-        public static TCP_STRUCT Server_KSSA = new TCP_STRUCT();    //宽带SSA
-        public static TCP_STRUCT Server_KSSA_Return = new TCP_STRUCT();    //小回路比对
-
-        public static TCP_STRUCT ClientGT = new TCP_STRUCT();   //高通地测
-
-
-        //StartCRTFunc(0, "CRTa");
-        //StartCRTFunc(1, "CRTb");
-        //StartCRTFunc(2, "ZSSA");
-        //StartCRTFunc(3, "KSSA");
-        //StartCRTFunc(4, "SMA");
-
-        public static string LocalIP1;//总控网
-        public static string LocalIP2;//测控网
-
-        public static string LocalIP3;//加密网
-
-        public static string DebugString = "Hello world";
-        public static bool Debugtag = false;
 
 
         public static void Connect(ref TCP_STRUCT CRT)
