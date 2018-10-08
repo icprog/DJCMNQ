@@ -13,39 +13,8 @@ namespace DJCMNQ_Server
     class TcpClient
     {
         public static bool IsConfigured;
-        public struct TCP_STRUCT
-        {
-            public string ClientIP;
-            public string ClientPort;
-            public int timeoutMSec;
-            public bool IsConnected;
-            public IPEndPoint rep;
-            public Socket sck;
-            public string ServerIP;
-            public string ServerPORT;
-            public Queue<byte[]> DataQueue_Recv;
-            public Queue<byte[]> DataQueue_Send;
 
-            public void Init()
-            {
-                this.DataQueue_Recv = new Queue<byte[]>();
-                this.DataQueue_Send = new Queue<byte[]>();
-            }
-        }
-
-        //测控网
-        public static TCP_STRUCT ClientZK1 = new TCP_STRUCT();   //总控设备（主）        
-        public static TCP_STRUCT ClientZK2 = new TCP_STRUCT();   //总控设备（备）
-
-        public static void Init()
-        {
-            ClientZK1.Init();
-            ClientZK2.Init();
-        }
-
-
-
-        public static void Connect(ref TCP_STRUCT CRT)
+        public static void Connect(ref NetAll.TCP_STRUCT CRT)
         {
             CRT.timeoutMSec = 1000;
             CRT.sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -74,6 +43,8 @@ namespace DJCMNQ_Server
                     CRT.sck.EndConnect(result);//建立连接  
                     CRT.IsConnected = true;
                     Trace.WriteLine("成功建立连接！");
+
+
                 }
                 catch
                 {
@@ -90,7 +61,7 @@ namespace DJCMNQ_Server
 
         }
 
-        public static void Disconnect(ref TCP_STRUCT CRT)
+        public static void Disconnect(ref NetAll.TCP_STRUCT CRT)
         {
             try
             {

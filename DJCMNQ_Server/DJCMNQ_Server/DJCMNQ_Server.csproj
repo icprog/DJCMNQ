@@ -57,8 +57,9 @@
     <Compile Include="GetSysInfo.cs" />
     <Compile Include="MajorLog.cs" />
     <Compile Include="MyLog.cs" />
-    <Compile Include="TcpClient.cs" />
-    <Compile Include="TcpServer.cs" />
+    <Compile Include="网络处理\NetAll.cs" />
+    <Compile Include="网络处理\TcpClient.cs" />
+    <Compile Include="网络处理\TcpServer.cs" />
     <Compile Include="TestUnit.cs" />
     <Compile Include="UI\MainForm.cs">
       <SubType>Form</SubType>
@@ -66,7 +67,7 @@
     <Compile Include="UI\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NetApi.cs" />
+    <Compile Include="网络处理\NetApi.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

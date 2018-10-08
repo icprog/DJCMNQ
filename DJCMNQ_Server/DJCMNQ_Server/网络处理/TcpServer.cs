@@ -35,14 +35,15 @@ namespace DJCMNQ_Server
 
         public void Init()
         {
-            TcpClient.Init();
-            TcpClient.ClientZK1.ClientIP = ConfigurationManager.AppSettings["ZK1IP"];
-            TcpClient.ClientZK2.ClientIP = ConfigurationManager.AppSettings["ZK2IP"];
+            NetAll.Init();
+            NetAll.ClientZK1.ClientIP = ConfigurationManager.AppSettings["ZK1IP"];
+            NetAll.ClientZK2.ClientIP = ConfigurationManager.AppSettings["ZK2IP"];
 
             ServerOn = true;
-            TcpClient.ClientZK1.IsConnected = false;
-            TcpClient.ClientZK2.IsConnected = false;
+            NetAll.ClientZK1.IsConnected = false;
+            NetAll.ClientZK2.IsConnected = false;
 
+            new Thread(() => { TranPortData(ref NetAll.ClientZK1, ref NetAll.ClientZK2); }).Start();
         }
 
         public void ServerStart_Target1(string TargetIp, string LocalServerPort, string LocalServerIP)
@@ -85,13 +86,13 @@ namespace DJCMNQ_Server
         public void ServerStart()
         {
             Trace.WriteLine("------------------------进入ServerStart");
-            TcpClient.Init();
-            TcpClient.ClientZK1.ClientIP = ConfigurationManager.AppSettings["ZK1IP"];
-            TcpClient.ClientZK2.ClientIP = ConfigurationManager.AppSettings["ZK2IP"];
+            NetAll.Init();
+            NetAll.ClientZK1.ClientIP = ConfigurationManager.AppSettings["ZK1IP"];
+            NetAll.ClientZK2.ClientIP = ConfigurationManager.AppSettings["ZK2IP"];
 
             ServerOn = true;
-            TcpClient.ClientZK1.IsConnected = false;
-            TcpClient.ClientZK2.IsConnected = false;
+            NetAll.ClientZK1.IsConnected = false;
+            NetAll.ClientZK2.IsConnected = false;
 
             ServerPort = int.Parse(ConfigurationManager.AppSettings["LocalPort1_ZK"]);
             ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -117,8 +118,8 @@ namespace DJCMNQ_Server
         {
             Trace.WriteLine("------------------------进入ServerStop");
             ServerOn = false;
-            TcpClient.ClientZK1.IsConnected = false;
-            TcpClient.ClientZK2.IsConnected = false;
+            NetAll.ClientZK1.IsConnected = false;
+            NetAll.ClientZK2.IsConnected = false;
             // Data.ServerConnectEvent.Set();
             try
             {
@@ -147,21 +148,21 @@ namespace DJCMNQ_Server
                         IPEndPoint tmppoint = (IPEndPoint)ClientSocket.RemoteEndPoint;
                         String RemoteIpStr = tmppoint.Address.ToString();
                         Trace.WriteLine(RemoteIpStr);
-                        if (RemoteIpStr == TcpClient.ClientZK1.ClientIP)
+                        if (RemoteIpStr == NetAll.ClientZK1.ClientIP)
                         {
-                            TcpClient.ClientZK1.IsConnected = true;
+                            NetAll.ClientZK1.IsConnected = true;
                             
                             ClientSocket.Send(Data.WelCome);
-                            new Thread(() => { RecvFromClient(ClientSocket,ref TcpClient.ClientZK1); }).Start();
-                            new Thread(() => { SendToClient(ClientSocket,ref TcpClient.ClientZK1); }).Start();
+                            new Thread(() => { RecvFromClient(ClientSocket,ref NetAll.ClientZK1); }).Start();
+                            new Thread(() => { SendToClient(ClientSocket,ref NetAll.ClientZK1); }).Start();
 
                         }
-                        if (RemoteIpStr == TcpClient.ClientZK2.ClientIP)
+                        if (RemoteIpStr == NetAll.ClientZK2.ClientIP)
                         {
-                            TcpClient.ClientZK2.IsConnected = true;
+                            NetAll.ClientZK2.IsConnected = true;
                             ClientSocket.Send(Data.WelCome);
-                            new Thread(() => { RecvFromClient(ClientSocket,ref TcpClient.ClientZK2); }).Start();
-                            new Thread(() => { SendToClient(ClientSocket, ref TcpClient.ClientZK2); }).Start();
+                            new Thread(() => { RecvFromClient(ClientSocket,ref NetAll.ClientZK2); }).Start();
+                            new Thread(() => { SendToClient(ClientSocket, ref NetAll.ClientZK2); }).Start();
                         }
                     }
                 }
@@ -177,7 +178,8 @@ namespace DJCMNQ_Server
         }
           
 
-        private void SendToClient(object ClientSocket,ref TcpClient.TCP_STRUCT TempClient)
+
+        private void SendToClient(object ClientSocket,ref NetAll.TCP_STRUCT TempClient)
         {
             Trace.WriteLine("SendMSG Thread Start... "+TempClient.ClientIP);
             Socket myClientSocket = (Socket)ClientSocket;
@@ -191,7 +193,7 @@ namespace DJCMNQ_Server
         }
 
 
-        private void RecvFromClient(object ClientSocket,ref TcpClient.TCP_STRUCT TempClient)
+        private void RecvFromClient(object ClientSocket,ref NetAll.TCP_STRUCT TempClient)
         {
             Trace.WriteLine("RecvFromClient!!");
             Socket myClientSocket = (Socket)ClientSocket;
@@ -199,20 +201,20 @@ namespace DJCMNQ_Server
             {
                 try
                 {
-                    byte[] RecvBufZK1 = new byte[4096];
-                    int RecvNum = myClientSocket.Receive(RecvBufZK1);
+                    byte[] FrontRecvBuf = new byte[4096];
+                    int RecvNum = myClientSocket.Receive(FrontRecvBuf);
                     if (RecvNum > 0)
                     {
                         //处理收到的数据
                         String tempstr = "";
-                        byte[] RecvBufToFile = new byte[RecvNum];
+                        byte[] RecvdBuf = new byte[RecvNum];
                         for (int i = 0; i < RecvNum; i++)
                         {
-                            RecvBufToFile[i] = RecvBufZK1[i];
-                            tempstr += RecvBufZK1[i].ToString("x2");
+                            RecvdBuf[i] = FrontRecvBuf[i];
+                            tempstr += FrontRecvBuf[i].ToString("x2");
                         }
                         Trace.WriteLine(tempstr);
-
+                        TempClient.DataQueue_Recv.Enqueue(RecvdBuf);
                     }
                     else
                     {
@@ -225,27 +227,40 @@ namespace DJCMNQ_Server
                     Trace.WriteLine(e.Message);
                     myClientSocket.Shutdown(SocketShutdown.Both);
                     myClientSocket.Close();
-                    //      fileZK1.Close();
-                    // TcpClient.ClientZK1.IsConnected = false;
-                    TempClient.IsConnected = false;
-                    
+                    TempClient.IsConnected = false;                    
                     Trace.WriteLine("Exception leave!!");
                     break;
                 }
             }
-
-            if (myClientSocket.Connected)
+                        if (myClientSocket.Connected)
             {
                 Trace.WriteLine("服务器主动关闭socket!");
                 myClientSocket.Shutdown(SocketShutdown.Both);
                 myClientSocket.Close();
             }
-
-            //   fileZK1.Close();
-            // TcpClient.ClientZK1.IsConnected = false;
             TempClient.IsConnected = false;
             Trace.WriteLine("leave!!");
-        }     
+        }
+
+        private void TranPortData(ref NetAll.TCP_STRUCT Client1,ref NetAll.TCP_STRUCT Client2)
+        {
+            while (ServerOn)
+            {
+                if (Client1.DataQueue_Recv.Count > 0)
+                {
+                    Client2.DataQueue_Send.Enqueue(Client1.DataQueue_Recv.Dequeue());
+                }
+                else if (Client2.DataQueue_Recv.Count > 0)
+                {
+                    Client1.DataQueue_Send.Enqueue(Client2.DataQueue_Recv.Dequeue());
+                }
+                else
+                {
+                    Thread.Sleep(500);
+                }
+            }
+
+        }
 
 
     }
