@@ -11,7 +11,7 @@ namespace connectsqlserver
 {
     class SQLClass
     {
-        public static string connsql = @"server=192.168.1.250;Database=TestDB1;uid=sa;pwd=Shanghai804";
+        public static string connsql = @"server=127.0.0.1;Database=DataBase_DJ;uid=sa;pwd=Dzs804";
 
         public static void SqlExcuteCMD(String CmdStr)
         {

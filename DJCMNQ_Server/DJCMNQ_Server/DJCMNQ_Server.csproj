@@ -80,6 +80,7 @@
       <DependentUpon>TestDB.cs</DependentUpon>
     </Compile>
     <Compile Include="存储接口\SaveFile.cs" />
+    <Compile Include="网络处理\UdpServer.cs" />
     <EmbeddedResource Include="UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

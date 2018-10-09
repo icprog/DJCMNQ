@@ -50,6 +50,9 @@ namespace connectsqlserver
             dataGridView1.DataSource = SQLClass.ExcuteQueryUsingDataAdapter(myQuery);
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace DJCMNQ_Server
@@ -61,6 +62,13 @@ namespace DJCMNQ_Server
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            UdpServer.UdpServerStop();
+            Thread.Sleep(500);
 
         }
     }

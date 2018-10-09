@@ -29,6 +29,7 @@ namespace DJCMNQ_Server
         {
             m_log.Error(info);
             Trace.WriteLine(info);
+            MyLog.Error("监听总控设备失败，检查IP设置和网络连接");
         }
 
     }

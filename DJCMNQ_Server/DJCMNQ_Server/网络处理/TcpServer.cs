@@ -13,55 +13,20 @@ namespace DJCMNQ_Server
 {
     class TcpServer
     {
-        public MainForm myForm;
-
-        private static byte[] RecvBuf = new byte[1024];
-        private static int ServerPort = 8888;
-        static Socket ServerSocket;
-        public bool ServerOn = false;//监听总控
-        public bool ServerOn_GT = false;//监听高通
-
-        private static int ServerPort2 = 7777;
-        static Socket ServerSocket2;
-
+        public static bool ServerOn = false;//一键启动所有服务器监听
 
         //改成统一的模板，目标实现Server监听这块可以直接拷贝使用
-        //
-        //
         public bool ServerOn_Target1 = false;//监听Target1的服务器标志
-        public static int ServerPort_Target1 = 8888;//与Target1通信的服务器Socket的端口号
         public static Socket ServerSockcet_Target1;
-
+   
 
         public void Init()
         {
-            NetAll.Init();
-            NetAll.ClientZK1.ClientIP = ConfigurationManager.AppSettings["ZK1IP"];
-            NetAll.ClientZK2.ClientIP = ConfigurationManager.AppSettings["ZK2IP"];
-
             ServerOn = true;
-            NetAll.ClientZK1.IsConnected = false;
-            NetAll.ClientZK2.IsConnected = false;
 
             new Thread(() => { TranPortData(ref NetAll.ClientZK1, ref NetAll.ClientZK2); }).Start();
         }
 
-        public void ServerStart_Target1(string TargetIp, string LocalServerPort, string LocalServerIP)
-        {
-            ServerSockcet_Target1 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPAddress ServerIP = IPAddress.Parse(LocalServerIP);
-            int ServerPort = int.Parse(LocalServerPort);
-            try
-            {
-                ServerSockcet_Target1.Bind(new IPEndPoint(ServerIP, ServerPort));
-                ServerSockcet_Target1.Listen(10);
-                ServerSockcet_Target1.BeginAccept(new AsyncCallback(onCall), ServerSockcet_Target1);
-            }
-            catch (Exception ex)
-            {
-                MajorLog.Error(ex.ToString());                
-            }
-        }
 
         public void ServerStart_Target1(string LocalServerPort, string LocalServerIP)
         {
@@ -77,53 +42,24 @@ namespace DJCMNQ_Server
                 ServerSockcet_Target1.BeginAccept(new AsyncCallback(onCall), ServerSockcet_Target1);
             }
             catch (Exception ex)
-            {
-                MajorLog.Error(ex.ToString());
+            {                
+                MyLog.Error(ex.ToString());                
             }
         }
 
 
-        public void ServerStart()
+        public void ServerStop_Target1()
         {
-            Trace.WriteLine("------------------------进入ServerStart");
-            NetAll.Init();
-            NetAll.ClientZK1.ClientIP = ConfigurationManager.AppSettings["ZK1IP"];
-            NetAll.ClientZK2.ClientIP = ConfigurationManager.AppSettings["ZK2IP"];
-
-            ServerOn = true;
+            Trace.WriteLine("Enter ServerStop_Target1");
+            ServerOn_Target1 = false;
+            //连接到本机Server上的远端Client关闭
             NetAll.ClientZK1.IsConnected = false;
             NetAll.ClientZK2.IsConnected = false;
 
-            ServerPort = int.Parse(ConfigurationManager.AppSettings["LocalPort1_ZK"]);
-            ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            IPAddress address = IPAddress.Parse(ConfigurationManager.AppSettings["LocalIP1"]);
-            try
-            {
-                ServerSocket.Bind(new IPEndPoint(address, ServerPort));
-                //  ServerSocket.Bind(new IPEndPoint(IPAddress.Any, ServerPort));
-                ServerSocket.Listen(10);
-                ServerSocket.BeginAccept(new AsyncCallback(onCall), ServerSocket);//继续接受其他客户端的连接  
-            }
-            catch (Exception ex)
-            {
-                MyLog.Error("监听总控设备失败，检查IP设置和网络连接");
-                Trace.WriteLine(ex.Message);
-                ServerOn = false;
-            }
-            Trace.WriteLine("------------------------退出ServerStart");
-        }
-
-        public void ServerStop()
-        {
-            Trace.WriteLine("------------------------进入ServerStop");
-            ServerOn = false;
-            NetAll.ClientZK1.IsConnected = false;
-            NetAll.ClientZK2.IsConnected = false;
             // Data.ServerConnectEvent.Set();
             try
             {
-                ServerSocket.Close();
+                ServerSockcet_Target1.Close();
             }
             catch (Exception ex)
             {
