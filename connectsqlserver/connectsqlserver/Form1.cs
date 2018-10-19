@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 namespace connectsqlserver
 {
@@ -22,7 +24,7 @@ namespace connectsqlserver
         {
             try
             {
-                string myQuery = "select * from Table_ZK";
+                string myQuery = "select * from table1";
                 dataGridView1.DataSource = SQLClass.ExcuteQueryUsingDataAdapter(myQuery);
 
             }

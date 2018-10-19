@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,8 +12,8 @@ namespace connectsqlserver
 {
     class SQLClass
     {
-        public static string connsql = @"server=127.0.0.1;Database=DataBase_DJ;uid=sa;pwd=Dzs804";
-
+        //        public static string connsql = @"server=127.0.0.1;Database=DataBase_DJ;uid=sa;pwd=Dzs804";
+         public static string connsql = @"server=127.0.0.1;Database=test_schema;uid=root;pwd=Shanghai804";
         public static void SqlExcuteCMD(String CmdStr)
         {
             using (var con = new SqlConnection(connsql))
@@ -47,18 +48,28 @@ namespace connectsqlserver
             }
         }
 
+        //public static DataTable ExcuteQueryUsingDataAdapter(string myQuery)
+        //{
+        //    using (SqlConnection con = new SqlConnection(connsql))
+        //    using (var dap = new SqlDataAdapter(myQuery, con))
+        //    {
+        //        // SqlDataAdapter dap = new SqlDataAdapter(myQuery, con);
+        //        DataTable dt = new DataTable();
+        //        dap.Fill(dt);
+        //        return dt;
+        //    }
+        //}
+
         public static DataTable ExcuteQueryUsingDataAdapter(string myQuery)
         {
-            using (SqlConnection con = new SqlConnection(connsql))
-            using (var dap = new SqlDataAdapter(myQuery, con))
+            using (MySqlConnection con = new MySqlConnection(connsql))
+            using (MySqlDataAdapter dap = new MySqlDataAdapter(myQuery, con))
             {
-                // SqlDataAdapter dap = new SqlDataAdapter(myQuery, con);
                 DataTable dt = new DataTable();
                 dap.Fill(dt);
                 return dt;
             }
         }
-
 
 
 
