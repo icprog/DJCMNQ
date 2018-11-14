@@ -9,3 +9,4 @@ DJCMNQ_Server/.vs/
 DJCMNQ_Server/DJCMNQ_Server/bin/
 DJCMNQ_Server/DJCMNQ_Server/obj/
 *.txt
+*.ide-shm
