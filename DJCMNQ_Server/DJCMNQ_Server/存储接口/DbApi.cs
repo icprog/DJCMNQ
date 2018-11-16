@@ -4,18 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace DJCMNQ_Server
 {
     class DbApi
     {
 
-        public static string connsql = @"server=192.168.1.250;Database=TestDB1;uid=sa;pwd=Shanghai804";
+        public static string connsql = @"server=192.168.1.250;Database=TestDB1;uid=sa;pwd=Shanghai804;SslMode = none";
 
         public static void SqlExcuteCMD(String CmdStr)
         {
-            using (var con = new SqlConnection(connsql))
-            using (var cmd = new SqlCommand(CmdStr, con))
+            using (MySqlConnection con = new MySqlConnection(connsql))
+            using (MySqlCommand cmd = new MySqlCommand(CmdStr, con))
             {
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -27,8 +28,8 @@ namespace DJCMNQ_Server
         public static DataTable ExcuteQueryUsingDataReader(string myQuery)
         {
             DataTable dt = new DataTable();
-            using (var con = new SqlConnection(connsql))
-            using (var cmd = new SqlCommand(myQuery, con))
+            using (MySqlConnection con = new MySqlConnection(connsql))
+            using (MySqlCommand cmd = new MySqlCommand(myQuery, con))
             {
                 con.Open();
                 using (var dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
@@ -48,8 +49,8 @@ namespace DJCMNQ_Server
 
         public static DataTable ExcuteQueryUsingDataAdapter(string myQuery)
         {
-            using (SqlConnection con = new SqlConnection(connsql))
-            using (var dap = new SqlDataAdapter(myQuery, con))
+            using (MySqlConnection con = new MySqlConnection(connsql))
+            using (MySqlDataAdapter dap = new MySqlDataAdapter(myQuery, con))
             {
                 // SqlDataAdapter dap = new SqlDataAdapter(myQuery, con);
                 DataTable dt = new DataTable();

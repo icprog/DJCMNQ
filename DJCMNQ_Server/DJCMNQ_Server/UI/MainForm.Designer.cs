@@ -37,7 +37,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(35, 148);
+            this.button1.Location = new System.Drawing.Point(26, 23);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(88, 38);
             this.button1.TabIndex = 0;
@@ -47,7 +47,7 @@
             // 
             // btn_ConnectAll
             // 
-            this.btn_ConnectAll.Location = new System.Drawing.Point(160, 148);
+            this.btn_ConnectAll.Location = new System.Drawing.Point(131, 23);
             this.btn_ConnectAll.Name = "btn_ConnectAll";
             this.btn_ConnectAll.Size = new System.Drawing.Size(103, 38);
             this.btn_ConnectAll.TabIndex = 1;
